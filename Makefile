@@ -1,0 +1,130 @@
+# Program name
+NAME = minishell
+
+# Directories
+INCLUDES_DIR = include
+OBJ_DIR = obj
+
+# Includes 
+INCLUDES = $(INCLUDES_DIR)/minishell.h \
+	$(INCLUDES_DIR)/libft.h \
+	$(INCLUDES_DIR)/builtins.h \
+	$(INCLUDES_DIR)/executer.h \
+	$(INCLUDES_DIR)/expander.h \
+	$(INCLUDES_DIR)/parser.h \
+	$(INCLUDES_DIR)/lexer.h \
+	$(INCLUDES_DIR)/utils.h
+
+# Source directories
+BUIL_DIR = src/builtins
+EXE_DIR = src/executor
+EXP_DIR = src/expander
+PARS_DIR = src/parser
+TOK_DIR = src/tokenizer
+UTILS_DIR = src/utils
+
+# Source files
+BUILTINS = $(BUIL_DIR)/builtins.c $(BUIL_DIR)/cd.c $(BUIL_DIR)/echo.c $(BUIL_DIR)/env.c $(BUIL_DIR)/exit.c $(BUIL_DIR)/export.c $(BUIL_DIR)/export_utils.c $(BUIL_DIR)/pwd.c $(BUIL_DIR)/unset.c 
+
+EXECUTOR = $(EXE_DIR)/pipes.c $(EXE_DIR)/execute.c $(EXE_DIR)/execute_utils.c $(EXE_DIR)/env.c $(EXE_DIR)/env_utils.c $(EXE_DIR)/path.c $(EXE_DIR)/heredoc.c $(EXE_DIR)/redirs.c
+
+EXPANDER = $(EXP_DIR)/expand.c $(EXP_DIR)/expand_utils.c
+
+PARSER = $(PARS_DIR)/parse.c $(PARS_DIR)/parse_utils.c $(PARS_DIR)/parse_redirs.c
+
+TOKENIZER = $(TOK_DIR)/token.c $(TOK_DIR)/quotes.c $(TOK_DIR)/utils_tokens.c $(TOK_DIR)/utils_quotes.c
+
+UTILS = $(UTILS_DIR)/utils_random.c $(UTILS_DIR)/signals.c $(UTILS_DIR)/freemem/parse_free.c $(UTILS_DIR)/freemem/free_token.c $(UTILS_DIR)/freemem/builtin_free.c $(UTILS_DIR)/freemem/execute_free.c $(UTILS_DIR)/prints/banner.c $(UTILS_DIR)/prints/tokens.c $(UTILS_DIR)/prints/parser.c $(UTILS_DIR)/prints/errors.c
+
+SRCS = src/main.c $(BUILTINS) $(EXECUTOR) $(EXPANDER) $(PARSER) \
+	$(TOKENIZER) $(UTILS)
+
+# Object files
+OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+
+# Libft
+LIBFT_DIR = src/my_lib
+LIBFT_LIB = $(LIBFT_DIR)/libft.a
+LIBFT_INC = -I$(LIBFT_DIR)/includes
+
+# Compiler and flags
+#CC = cc
+#CFLAGS = -Wall -Wextra -Werror -g -fPIE -I$(INCLUDES_DIR) $(LIBFT_INC) -I/opt/homebrew/opt/readline/include #a partir del -I es de mac
+#LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline -lhistory #a partir del -lreadline es de mac
+#LDFLAGS = -lreadline
+
+# Compiler and flags
+CC = cc
+
+# Detect Operating Sysem (OS Detection)
+UNAME_S := $(shell uname -s)
+
+# Conditional compilation flags
+ifeq ($(UNAME_S),Darwin)
+	# MAC
+	CFLAGS = -Wall -Wextra -Werror -g -fPIE -I$(INCLUDES_DIR) $(LIBFT_INC) -I/opt/homebrew/opt/readline/include
+	LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline -lhistory
+else
+	# LINUX (School & GitHub)
+	CFLAGS = -Wall -Wextra -Werror -g -fPIE -I$(INCLUDES_DIR) $(LIBFT_INC)
+	LDFLAGS = -lreadline -lhistory
+endif
+
+# Utils
+RM = rm -rf
+
+# Colors
+RED    = \033[0;31m
+GREEN  = \033[0;32m
+YELLOW = \033[1;33m
+BLUE   = \033[0;34m
+PINK   = \033[0;35m
+NC     = \033[0m
+
+# Rules
+all: $(LIBFT_LIB) $(NAME)
+
+$(NAME): $(OBJS)
+	@echo "$(PINK)🔗 Linking $(NAME)...$(NC)"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN)✅ $(NAME) ready!$(NC)"
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@echo "$(PINK)⌛ $<$(NC)"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIBFT_LIB):
+	@echo "$(YELLOW)📚 Building libft...$(NC)"
+	@$(MAKE) -s -C $(LIBFT_DIR)
+	@echo "$(GREEN)✅ libft ready!$(NC)"
+
+clean:
+	@echo "$(RED)🗑️  Cleaning objects...$(NC)"
+	@$(MAKE) -s -C $(LIBFT_DIR) clean
+	@$(RM) $(OBJ_DIR)
+
+fclean: clean
+	@echo "$(RED)🗑️  Full clean...$(NC)"
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
+	@$(RM) $(NAME)
+	@echo "$(BLUE)🧽 All clean!$(NC)"
+
+re: fclean all
+
+.PHONY: all clean fclean re
+
+# valgrind \
+    --leak-check=full \
+    --show-leak-kinds=all \
+    --track-fds=yes \
+    --trace-children=yes \
+    --suppressions=tests/level0/readline.supp \
+    ./minishell
+
+#Explicación de las banderas:
+#--leak-check=full: Análisis completo de memoria.
+#--show-leak-kinds=all: Muestra todos los tipos de fugas (incluso "still reachable" que no suprimas).
+#--track-fds=yes: Lo que pediste. Te dirá al final si dejaste algún file descriptor abierto (pipes, archivos, etc.).
+#--trace-children=yes: Analiza también los comandos que ejecutas dentro (forks), no solo el proceso padre.
+#--suppressions=...: Indica el archivo con reglas para ignorar errores conocidos.
