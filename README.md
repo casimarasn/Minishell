@@ -338,8 +338,9 @@ TOKEN_RPAREN         // )
 ```bash
 echo "hello" | grep world | wc -l
 ```
-Memory Structure:
 
+**Memory Structure**:
+```
 [ CMD node ]      [ CMD node ]      [ CMD node ]
 +----------+      +----------+      +----------+
 | args:    |      | args:    |      | args:    |
@@ -348,6 +349,7 @@ Memory Structure:
 +----------+      +----------+      +----------+
      |                 |                 |
   (next)            (next)            (next)
+```
 
 ### 3️⃣ Expander - Variable Expansion
 
@@ -859,8 +861,9 @@ TOKEN_RPAREN         // )
 ```bash
 echo "hello" | grep world | wc -l
 ```
-Estructura en Memoria:
 
+**Estructura en Memoria**:
+```
 [ CMD node ]      [ CMD node ]      [ CMD node ]
 +----------+      +----------+      +----------+
 | args:    |      | args:    |      | args:    |
@@ -869,6 +872,7 @@ Estructura en Memoria:
 +----------+      +----------+      +----------+
      |                 |                 |
   (next)            (next)            (next)
+```
 
 ### 3️⃣ Expander - Expansión de Variables
 
