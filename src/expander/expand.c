@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:16:06 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/27 17:03:01 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:28:58 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	copy_var_value(char *dst, char *src, int *i, t_env *env)
 
 	(*i)++;
 	var_name = extract_var_name(src, i);
-	//ft_printf("DEBUG: var_name='%s'\n", var_name);
 	if (!var_name)
 	{
 		dst[0] = '$';

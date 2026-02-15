@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:16:33 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/22 20:16:34 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:29:52 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,41 +116,3 @@ void	check_operator(t_lexer_state *st, t_token **tokens)
 	else if ((c == '<') || (c == '>'))
 		operator_red(st, tokens);
 }
-
-/*
-BACKTRACKING 🎯
-Concepto clave:
-Cuando encuentras una comilla (" o '):
-
-Guardas la posición actual (checkpoint)
-Intentas encontrar la comilla de cierre
-Si la encuentras → Éxito, creas token con el tipo de comilla
-Si NO la encuentras → BACKTRACK: vuelves al checkpoint y tratas
-la comilla como un carácter normal
-*/
-
-/*
-Detalles importantes:
-
-En comillas dobles ", el backslash \ escapa el siguiente carácter
-En comillas simples ', NO hay escapes, todo es literal
-*/
-
-/*
-Jerarquía de comillas
-La jerarquía que quieres:
-
-Comillas dobles tienen prioridad
-Comillas simples
-Sin comillas
-
-¿Pero qué significa esto en la práctica?
-Cuando estás dentro de comillas dobles, las simples son literales:
-"texto con 'simples'" → una sola palabra
-Cuando estás dentro de comillas simples, las dobles son literales:
-'texto con "dobles"' → una sola palabra
-Pero ojo: la jerarquía aplica cuando estás buscando qué comilla abrir.
-Si encuentras primero ", buscas su cierre ignorando ' intermedias.
-Pregunta: ¿Ves la diferencia entre "jerarquía de apertura"
-y "anidamiento"? No es lo mismo.
-*/

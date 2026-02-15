@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: casimarasn <casimarasn@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:45 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/27 22:52:07 by casimarasn       ###   ########.fr       */
+/*   Updated: 2026/02/15 13:27:03 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_env	*get_env_node(char *str)
 	env->next = NULL;
 	pos_eq = ft_strchr(str, '=');
 	if (pos_eq)
-	{ // Caso: CLAVE=VALOR
-		key_len = pos_eq - str; //aritmetica de punteros
+	{
+		key_len = pos_eq - str;
 		env->key = ft_substr(str, 0, key_len);
-		env->value = ft_strdup(pos_eq + 1); //cpy dsd = por eso el +1
+		env->value = ft_strdup(pos_eq + 1);
 	}
 	else
-	{ //caso CLAVE sin valor.
+	{
 		env->key = ft_strdup(str);
 		env->value = NULL;
 	}
@@ -51,10 +51,10 @@ static void	force_env_var(t_env **head, char *key, char *value)
 			return ;
 		node = node->next;
 	}
-	if (value) //no existe, la creamos
+	if (value)
 		full = ft_strjoindelimit(key, "=", value);
 	else
-		full = ft_strdup(key); //caso raro sin valor
+		full = ft_strdup(key);
 	if (full)
 	{
 		add_env(head, get_env_node(full));

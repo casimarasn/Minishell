@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:14 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/22 20:15:15 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:24:48 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	ft_echo(char **args)
 		else
 			break ;
 		i++;
-	} // Imprimir argumentos
+	}
 	while (args[i])
 	{
 		ft_print_echo(args, i);
 		i++;
-	} // Imprimir salto de línea si corresponde
+	}
 	if (newline)
 		ft_putchar_fd('\n', 1);
 	return (0);

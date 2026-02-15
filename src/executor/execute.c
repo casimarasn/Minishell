@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:14:06 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/27 19:51:54 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:27:36 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_simple_cmd(t_command *cmd, t_env **env)
 	std_in = dup(STDIN_FILENO);
 	if (handle_heredocs_before_pipeline(cmd, env, cmd) != 0)
 	{
-		dup2(std_in, STDIN_FILENO); // Restaurar si se cancela con Ctrl+C
+		dup2(std_in, STDIN_FILENO);
 		close(std_in);
 		return ;
 	}
@@ -91,15 +91,3 @@ void	execute_simple_cmd(t_command *cmd, t_env **env)
 	dup2(std_in, STDIN_FILENO);
 	close(std_in);
 }
-
-// 		/*
-//               g_exit_status = 128 + WTERMSIG(status);
-//             // AQUI ES DONDE VA EL NEWLINE:
-//             // Si el hijo murió por SIGINT (Ctrl+C), imprimimos \n
-//             if (WTERMSIG(status) == SIGINT)
-//                 write(1, "\n", 1);
-//             // Opcional: Para SIGQUIT (Ctrl+\) bash imprime esto:
-//             else if (WTERMSIG(status) == SIGQUIT)
-//                 ft_putendl_fd("Quit (core dumped)", 1);
-// 		*/
-// 	}

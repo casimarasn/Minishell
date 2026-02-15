@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:14:11 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/26 21:45:55 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:24:13 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	minishell(char *input, t_env **env)
 
 	tokens = NULL;
 	tokens = init_token(input, tokens, *env);
-	// print_tokens(tokens);
 	cmds = parse(tokens);
 	if (tokens)
 	{
@@ -30,7 +29,6 @@ static void	minishell(char *input, t_env **env)
 	}
 	if (cmds)
 	{
-		// print_commands(cmds);
 		if (cmds->next)
 			execute_pipeline(cmds, env);
 		else
@@ -65,8 +63,6 @@ static void	main_loop(t_env **env_list)
 			else
 				input = NULL;
 		}
-			//input = readline("");// Aquí
-		//printf("%s\n",input);
 		if (!input)
 			break ;
 		if (input[0] != '\0')

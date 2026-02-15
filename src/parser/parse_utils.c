@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:16:19 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/22 20:16:20 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:29:25 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,44 +53,3 @@ int	validate_syntax( t_token **tokens)
 	}
 	return (1);
 }
-
-// INPUT: "cat < input.txt > output.txt"
-
-//           ↓ tokenize()
-
-// TOKENS: [WORD:"cat"] [REDIR_IN] [WORD:"input.txt"]
-//	[REDIR_OUT] [WORD:"output.txt"] [END]
-
-//           ↓ create_command()
-
-//     ┌─────────────────────────────────────┐
-//     │  Guardar posición inicial (start)   │
-//     └─────────────────────────────────────┘
-//               ↓
-//     ┌─────────────────────────────────────┐
-//     │  extract_args(tokens)               │
-//     │  - Cuenta solo WORD (salta redirs)  │
-//     │  - Copia solo argumentos            │
-//     │  → args = ["cat", NULL]             │
-//     └─────────────────────────────────────┘
-//               ↓
-//     ┌─────────────────────────────────────┐
-//     │  Volver al inicio (tokens = start)  │
-//     └─────────────────────────────────────┘
-//               ↓
-//     ┌─────────────────────────────────────┐
-//     │  parse_redirections(tokens, cmd)    │
-//     │  - Detecta REDIR_IN                 │
-//     │  - Crea {REDIR_IN, "input.txt"}     │
-//     │  - Detecta REDIR_OUT                │
-//     │  - Crea {REDIR_OUT, "output.txt"}   │
-//     │  → redirs = lista enlazada          │
-//     └─────────────────────────────────────┘
-//               ↓
-
-// COMANDO FINAL:
-// {
-//   args: ["cat", NULL],
-//   redirs: {REDIR_IN, "input.txt"} → {REDIR_OUT, "output.txt"} → NULL,
-//   next: NULL
-// }

@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:16:39 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/22 20:16:40 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:30:05 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*void	count_quote(t_lexer_state *st, char quote, int end)
-{
-	int	i;
-
-	i = st->pos +1;
-	st->elimquote = 0;
-	while (st->input[i] && i < end)
-	{
-		if (st->input[i] == quote)
-			st->elimquote ++;
-		i++;
-	}
-}*/
 
 void	clean_quote(char *str, t_lexer_state *st, int end, char quote)
 {

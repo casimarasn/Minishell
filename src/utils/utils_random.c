@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_random.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:17:43 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/22 20:17:44 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:30:46 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,3 @@ int	is_operator(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
-
-/*int	is_word(char c)
-{
-	if (!is_operator(c) && !is_quote(c) && !isspace(c))
-		return (1);
-	return (0);
-}*/

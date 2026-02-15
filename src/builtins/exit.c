@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:21 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/27 19:50:04 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:25:03 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	is_numeric(char *str)
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (!str[i]) // si solo "+" o "-"
+	if (!str[i])
 		return (0);
 	while (str[i])
 	{
@@ -30,18 +30,30 @@ static int	is_numeric(char *str)
 	return (1);
 }
 
+static void	close_extra_fds(void)
+{
+	int	i;
+
+	i = 3;
+	while (i < 1024)
+	{
+		close(i);
+		i++;
+	}
+}
+
 static void	clean_and_exit(int status, t_env **env, t_command *cmds_head)
 {
 	free_env_list(*env);
 	if (cmds_head)
 		free_commands(cmds_head);
 	rl_clear_history();
+	close_extra_fds();
 	exit(status);
 }
 
-int	ft_exit(t_command *cmd/*char **args*/, t_env **env, t_command *cmds_head)
+int	ft_exit(t_command *cmd, t_env **env, t_command *cmds_head)
 {
-	//ft_putendl_fd("exit", 2);
 	if (!cmds_head)
 		cmds_head = cmd;
 	if (!cmd->args || !cmd->args[1])

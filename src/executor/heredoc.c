@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msedeno- <msedeno-@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: msedeno- <msedeno-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:13:48 by msedeno-          #+#    #+#             */
-/*   Updated: 2026/01/27 19:21:35 by msedeno-         ###   ########.fr       */
+/*   Updated: 2026/02/15 13:27:45 by msedeno-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	heredoc_sigint(int sig)
 	exit(130);
 }
 
-static void	heredoc_child(t_redir *redir, int *pipefd, t_env **env, t_command *cmds_head)
+static void	heredoc_child(t_redir *redir, int *pipefd, t_env **env,
+	t_command *cmds_head)
 {
 	char	*line;
 
@@ -45,10 +46,9 @@ static void	heredoc_child(t_redir *redir, int *pipefd, t_env **env, t_command *c
 		free(line);
 	}
 	close(pipefd[1]);
-	clean_child_exit(0, env, NULL, NULL, cmds_head);
+	clean_child_exit(0, env, NULL, cmds_head);
 }
 
-// Nueva función auxiliar: Gestiona la espera del padre y actualiza el FD
 static int	wait_heredoc_child(pid_t pid, int pipe_read, t_command *cmd)
 {
 	int	status;

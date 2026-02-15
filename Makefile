@@ -48,12 +48,6 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 LIBFT_INC = -I$(LIBFT_DIR)/includes
 
 # Compiler and flags
-#CC = cc
-#CFLAGS = -Wall -Wextra -Werror -g -fPIE -I$(INCLUDES_DIR) $(LIBFT_INC) -I/opt/homebrew/opt/readline/include #a partir del -I es de mac
-#LDFLAGS = -L/opt/homebrew/opt/readline/lib -lreadline -lhistory #a partir del -lreadline es de mac
-#LDFLAGS = -lreadline
-
-# Compiler and flags
 CC = cc
 
 # Detect Operating Sysem (OS Detection)

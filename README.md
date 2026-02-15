@@ -100,7 +100,7 @@ brew install readline
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/lperalta14/minishell.git
+git clone https://github.com/casimarasn/Minishell.git
 cd minishell
 
 # Compilar
@@ -470,10 +470,10 @@ El proyecto incluye hooks automatizados:
       <a href="https://github.com/casimarasn">
         <img src="https://cdn.intra.42.fr/users/1c2b22c55757980443f96ecd768eddf3/msedeno-.jpg" width="100px;" alt="Colaborador"/>
         <br />
-        <sub><b>Colaborador</b></sub>
+        <sub><b>Maria Sedeño</b></sub>
       </a>
       <br />
-      <sub>colaborador@student.42.fr</sub>
+      <sub>msedeno-@student.42.fr</sub>
     </td>
   </tr>
 </table>
