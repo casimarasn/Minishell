@@ -1,4 +1,537 @@
-*Este proyecto ha sido creado como parte del curriculum de 42 por msedeno- y lperalta | This project has been created as part of the 42 curriculum by msedeno- and lperalta*
+*This project has been created as part of the 42 curriculum by msedeno- and lperalta | Este proyecto ha sido creado como parte del curriculum de 42 por msedeno- y lperalta*
+
+<div align="center">
+
+## 🌍 Language / Idioma
+
+**[English](#english-version) | [Español](#versión-en-español)**
+
+</div>
+
+---
+
+# English Version
+
+<div align="center">
+  
+![Minishell Banner](banners/minishell.gif)
+
+**A modern Bash reimplementation as a 42 project**
+
+[![42 School](https://img.shields.io/badge/42-School-000000?style=flat&logo=42&logoColor=white)](https://42.fr)
+[![Norminette](https://img.shields.io/badge/Norminette-passing-success)](https://github.com/42School/norminette)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Testing](#-testing) • [Architecture](#-architecture)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [About the Project](#-about-the-project)
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Automated Testing](#-automated-testing)
+- [Architecture](#-architecture)
+- [Execution Pipeline](#-execution-pipeline)
+- [Documentation](#-documentation)
+- [Git Workflow](#-git-workflow)
+- [Authors](#-authors)
+
+---
+
+## 🎯 About the Project
+
+**Minishell** is a simplified implementation of a Bash-style command interpreter, developed as an educational project at 42 School. The project emphasizes:
+
+- 🏗️ **Modular architecture** with separation of concerns
+- 🤖 **Automated testing** with complete test suite
+- 🔄 **Standardized Git workflow** and collaboration
+- 📚 **Detailed technical documentation**
+
+---
+
+## ✨ Features
+
+### Implemented Functionalities
+
+- ✅ **Interactive prompt** with command history (readline)
+- ✅ **Command search** in PATH
+- ✅ **Quote management** with hierarchy and backtracking
+  - Double quotes (`"..."`) - Partial expansion
+  - Single quotes (`'...'`) - No expansion
+  - No quotes - Full expansion
+- ✅ **Redirections**
+  - Input: `<`
+  - Output: `>`
+  - Append: `>>`
+  - Heredoc: `<<`
+- ✅ **Pipes** (`|`) - Inter-process communication
+- ✅ **Variable expansion** (`$VAR`, `$?`)
+- ✅ **Subshells** with parentheses `(...)`
+- ✅ **Signals** (Ctrl+C, Ctrl+D, Ctrl+\\)
+
+### Implemented Builtins
+
+| Command | Description |
+|---------|-------------|
+| `echo` | Prints arguments (with `-n` option) |
+| `cd` | Changes working directory |
+| `pwd` | Shows current directory |
+| `export` | Defines environment variables |
+| `unset` | Removes environment variables |
+| `env` | Shows environment variables |
+| `exit` | Closes the shell |
+
+---
+
+## 📦 Requirements
+
+### System
+- **OS**: Linux / macOS
+- **Compiler**: GCC or Clang
+- **Make**: GNU Make 3.81+
+
+### Dependencies
+```bash
+# Ubuntu/Debian
+sudo apt-get install libreadline-dev
+
+# macOS (Homebrew)
+brew install readline
+```
+
+---
+
+## 🚀 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/casimarasn/Minishell.git
+cd minishell
+
+# Compile
+make
+
+# Execute
+./minishell
+```
+
+### Available Make Commands
+
+| Command | Action |
+|---------|--------|
+| `make` | Compiles the project |
+| `make clean` | Removes object files |
+| `make fclean` | Complete cleanup |
+| `make re` | Recompiles from scratch |
+
+---
+
+## 💻 Usage
+
+### Basic Examples
+
+```bash
+# Simple commands
+minishell> ls -la
+minishell> echo "Hello World"
+
+# Pipes
+minishell> ls | grep .c | wc -l
+
+# Redirections
+minishell> cat < input.txt > output.txt
+minishell> echo "log" >> file.log
+
+# Heredoc
+minishell> cat << EOF
+> line 1
+> line 2
+> EOF
+
+# Variables
+minishell> export VAR="value"
+minishell> echo $VAR
+
+# Logical operators
+minishell> make && ./minishell
+minishell> ls nonexistent_file || echo "Error"
+
+# Subshells
+minishell> (cd /tmp && ls) && pwd
+```
+
+---
+
+## 🧪 Automated Testing
+
+The project includes a **complete automated test suite** to ensure code quality and robustness.
+
+### Testing Structure
+
+```
+tests/
+├── unit/           # Unit tests per module
+│   ├── lexer/
+│   ├── parser/
+│   ├── expander/
+│   └── executor/
+├── integration/    # Integration tests
+├── regression/     # Regression tests
+└── testers/        # External testers
+    ├── minishell-tester/
+    ├── mpanic/
+    └── 42_minishell_tester/
+```
+
+### Running Tests
+
+```bash
+# Complete test suite
+make test
+
+# Tests per module
+make test-lexer
+make test-parser
+make test-executor
+
+# Tests with valgrind (memory leaks)
+make test-valgrind
+
+# External testers
+./tests/run_external_testers.sh
+```
+
+### Integrated Testers
+
+| Tester | Description | Coverage |
+|--------|-------------|-----------|
+| **minishell-tester** | Official 42 suite | Basic functionalities |
+| **mpanic** | Exhaustive tests | Edge cases and memory |
+| **42_minishell_tester** | Community tester | Complex cases |
+
+### Testing Metrics
+
+- ✅ **Code coverage**: >85%
+- ✅ **Memory leaks**: 0 (verified with Valgrind)
+- ✅ **Norminette**: 100% compliant
+- ✅ **Edge cases**: >200 test cases
+
+---
+
+## 🏗️ Architecture
+
+### Project Structure
+
+```
+minishell/
+├── src/
+│   ├── main.c              # Entry point
+│   ├── lexer/              # Tokenization
+│   │   └── token.c
+│   ├── parser/             # Syntax analysis
+│   │   └── parse.c
+│   ├── expander/           # Variable expansion
+│   │   └── expand.c
+│   ├── executor/           # Command execution
+│   │   └── pipes.c
+│   ├── builtins/           # Internal commands
+│   │   └── cdcommand.c
+│   ├── utils/              # Utilities
+│   │   └── prints/
+│   │       └── banner.c
+│   └── my_lib/             # Custom library
+├── include/                # Headers
+│   └── minishell.h
+├── banners/                # ASCII art
+├── docs/                   # Documentation
+│   ├── minishell_functions.md
+│   └── Workflow_Git_Minishell.md
+├── tests/                  # Test suite
+├── obj/                    # Object files (generated)
+└── Makefile
+```
+
+### Modular Design
+
+```
+┌─────────────────────────────────────────┐
+│           MINISHELL CORE                │
+└─────────────────────────────────────────┘
+                    │
+        ┌───────────┴───────────┐
+        ▼                       ▼
+┌───────────────┐       ┌───────────────┐
+│   READLINE    │       │   SIGNALS     │
+│   (Input)     │       │   Handler     │
+└───────┬───────┘       └───────────────┘
+        │
+        ▼
+┌───────────────┐
+│     LEXER     │  ← Tokenization with backtracking
+│  (Tokenizer)  │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│    PARSER     │  ← AST (Abstract Syntax Tree)
+│               │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│   EXPANDER    │  ← Variables
+│               │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│   EXECUTOR    │  ← Fork/Exec + Builtins
+│               │
+└───────────────┘
+```
+
+---
+
+## 🔄 Execution Pipeline
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   INPUT     │────▶│    LEXER    │────▶│   PARSER    │────▶│  EXPANDER   │────▶│  EXECUTOR   │
+│  (String)   │     │  (Tokens)   │     │    (AST)    │     │ (Variables) │     │  (Process)  │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+```
+
+### 1️⃣ Lexer - Tokenization
+
+**Function**: Convert input string into tokens
+
+**Quote hierarchy** (implemented with backtracking):
+1. Double quotes `"..."` - Highest priority
+2. Single quotes `'...'`
+3. No quotes - Normal expansion
+
+**Token types**:
+```c
+TOKEN_WORD           // Word/argument
+TOKEN_PIPE           // |
+TOKEN_REDIR_IN       // <
+TOKEN_REDIR_OUT      // >
+TOKEN_REDIR_APPEND   // >>
+TOKEN_REDIR_HEREDOC  // <<
+TOKEN_LPAREN         // (
+TOKEN_RPAREN         // )
+```
+
+
+
+### 2️⃣ Parser - Building the Command List
+
+**Function**: Build a linked list of command structures (Pipeline).
+
+**Example**:
+```bash
+echo "hello" | grep world | wc -l
+```
+Memory Structure:
+
+[ CMD node ]      [ CMD node ]      [ CMD node ]
++----------+      +----------+      +----------+
+| args:    |      | args:    |      | args:    |
+| ["echo"] | ---> | ["grep"] | ---> | ["wc"]   |
+| ["hello"]|      | ["world"]|      | ["-l"]   |
++----------+      +----------+      +----------+
+     |                 |                 |
+  (next)            (next)            (next)
+
+### 3️⃣ Expander - Variable Expansion
+
+**Function**: Expand variables according to quote context
+
+**Rules**:
+- No quotes → Expand everything
+- `"..."` → Expand variables, not wildcards
+- `'...'` → Don't expand anything
+
+### 4️⃣ Executor - Execution
+
+**Function**: Execute commands and manage I/O
+
+**Components**:
+- Fork/exec for external commands
+- Native builtins
+- Pipe and redirection management
+- Signal handling
+
+---
+
+## 📚 Documentation
+
+### Technical Documents
+
+| Document | Description |
+|-----------|-------------|
+| [Authorized Functions](docs/minishell_functions.md) | Specification of all allowed functions |
+| [Git Workflow](docs/Workflow_Git_Minishell.md) | Guide to using Git in the project |
+| [API Reference](#) | Internal API documentation |
+
+### Useful Resources
+
+- 📖 [Bash Reference Manual](https://www.gnu.org/software/bash/manual/)
+- 🔧 [Readline Documentation](https://tiswww.case.edu/php/chet/readline/rltop.html)
+- 🐛 [Debugging Guide](#) - Coming soon
+
+---
+
+## 🔀 Git Workflow
+
+### Branch Strategy
+
+```
+main                    ← Protected branch (stable releases)
+  │
+  ├── develop          ← Integration branch
+  │     │
+  │     ├── feature/lexer-backtracking
+  │     ├── feature/heredoc-implementation
+  │     ├── fix/memory-leak-parser
+  │     └── test/integration-pipes
+  │
+  └── hotfix/critical-bug
+```
+
+### Commit Convention
+
+Following [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+**Allowed types**:
+- `feat`: New functionality
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Format (doesn't affect logic)
+- `refactor`: Refactoring
+- `test`: Tests
+- `chore`: Maintenance
+
+**Examples**:
+```bash
+feat(lexer): implement quote hierarchy with backtracking
+fix(parser): resolve segfault on empty pipe
+docs(readme): update testing section
+test(executor): add pipe integration tests
+```
+
+### Workflow
+
+```bash
+# 1. Create feature branch from develop
+git checkout develop
+git pull origin develop
+git checkout -b feature/my-feature
+
+# 2. Develop and commit
+git add .
+git commit -m "feat(module): description"
+
+# 3. Push and create Pull Request
+git push origin feature/my-feature
+
+# 4. Code review + automated tests
+
+# 5. Merge to develop after approval
+```
+
+### Pre-commit Hooks
+
+The project includes automated hooks:
+
+- ✅ **Norminette** check
+- ✅ **Compilation** without warnings
+- ✅ **Basic unit tests**
+- ✅ **Commit format** check
+
+---
+
+## 👥 Authors
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/lperalta14">
+        <img src="https://github.com/lperalta14.png" width="100px;" alt="Luis Peralta"/>
+        <br />
+        <sub><b>Luis Peralta</b></sub>
+      </a>
+      <br />
+      <sub>lperalta@student.42.fr</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/casimarasn">
+        <img src="https://cdn.intra.42.fr/users/1c2b22c55757980443f96ecd768eddf3/msedeno-.jpg" width="100px;" alt="Contributor"/>
+        <br />
+        <sub><b>Maria Sedeño</b></sub>
+      </a>
+      <br />
+      <sub>msedeno-@student.42.fr</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🤝 Contributions
+
+This is an academic project from 42 School. External contributions are not accepted, but the code is shared for educational purposes.
+
+### For 42 Students
+
+If you find this project useful:
+1. ⭐ Give the repo a star
+2. 📚 Use it as a reference, don't copy it
+3. 💬 Share constructive feedback
+
+---
+
+## 📄 License
+
+This project is part of the 42 School curriculum and is available for educational purposes only.
+
+---
+
+## 🙏 Acknowledgments
+
+- **42 School** for the challenging project
+- **42 Community** for testers and shared resources
+- **Bash Developers** for the inspiration
+
+---
+
+<div align="center">
+
+**[⬆ Back to top](#-minishell)**
+
+Made with ☕ and 💻 at 42 School
+
+</div>
+
+---
+---
+---
+
+# Versión en Español
 
 <div align="center">
   
