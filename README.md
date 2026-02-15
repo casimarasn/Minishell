@@ -1,6 +1,6 @@
-<div align="center">
+*Este proyecto ha sido creado como parte del curriculum de 42 por msedeno- y lperalta | This project has been created as part of the 42 curriculum by msedeno- and lperalta*
 
-![WORKINPROGRESS](banners/workinprogres.gif)
+<div align="center">
   
 ![Minishell Banner](banners/minishell.gif)
 
@@ -60,7 +60,6 @@
   - Heredoc: `<<`
 - ✅ **Pipes** (`|`) - Comunicación entre procesos
 - ✅ **Expansión de variables** (`$VAR`, `$?`)
-- ✅ **Operadores lógicos** (`&&`, `||`)
 - ✅ **Subshells** con paréntesis `(...)`
 - ✅ **Señales** (Ctrl+C, Ctrl+D, Ctrl+\\)
 
@@ -274,7 +273,7 @@ minishell/
         │
         ▼
 ┌───────────────┐
-│   EXPANDER    │  ← Variables y wildcards
+│   EXPANDER    │  ← Variables
 │               │
 └───────┬───────┘
         │
@@ -313,29 +312,30 @@ TOKEN_REDIR_IN       // <
 TOKEN_REDIR_OUT      // >
 TOKEN_REDIR_APPEND   // >>
 TOKEN_REDIR_HEREDOC  // <<
-TOKEN_AND            // &&
-TOKEN_OR             // ||
 TOKEN_LPAREN         // (
 TOKEN_RPAREN         // )
 ```
 
-### 2️⃣ Parser - Construcción del AST
 
-**Función**: Construir árbol de sintaxis abstracta
+
+### 2️⃣ Parser - Construcción de la Lista de Comandos
+
+**Función**: Construir una lista enlazada de estructuras de comandos (Pipeline).
 
 **Ejemplo**:
 ```bash
-echo "hello" | grep world && ls
+echo "hello" | grep world | wc -l
 ```
+Estructura en Memoria:
 
-```
-        AND
-       /   \
-     PIPE  CMD(ls)
-     /  \
-  CMD   CMD
- echo  grep
-```
+[ CMD node ]      [ CMD node ]      [ CMD node ]
++----------+      +----------+      +----------+
+| args:    |      | args:    |      | args:    |
+| ["echo"] | ---> | ["grep"] | ---> | ["wc"]   |
+| ["hello"]|      | ["world"]|      | ["-l"]   |
++----------+      +----------+      +----------+
+     |                 |                 |
+  (next)            (next)            (next)
 
 ### 3️⃣ Expander - Expansión de Variables
 
