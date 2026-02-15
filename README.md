@@ -279,7 +279,7 @@ minishell/
         │
         ▼
 ┌───────────────┐
-│    PARSER     │  ← AST (Abstract Syntax Tree)
+│    PARSER     │  ← Cmd List
 │               │
 └───────┬───────┘
         │
@@ -303,7 +303,7 @@ minishell/
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   INPUT     │────▶│    LEXER    │────▶│   PARSER    │────▶│  EXPANDER   │────▶│  EXECUTOR   │
-│  (String)   │     │  (Tokens)   │     │    (AST)    │     │ (Variables) │     │  (Process)  │
+│  (String)   │     │  (Tokens)   │     │ (Cmd List)  │     │ (Variables) │     │  (Process)  │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
@@ -800,7 +800,7 @@ minishell/
         │
         ▼
 ┌───────────────┐
-│    PARSER     │  ← AST (Abstract Syntax Tree)
+│    PARSER     │  ← Cmd List
 │               │
 └───────┬───────┘
         │
@@ -824,7 +824,7 @@ minishell/
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   INPUT     │────▶│    LEXER    │────▶│   PARSER    │────▶│  EXPANDER   │────▶│  EXECUTOR   │
-│  (String)   │     │  (Tokens)   │     │    (AST)    │     │ (Variables) │     │  (Process)  │
+│  (String)   │     │  (Tokens)   │     │ (Cmd List)  │     │ (Variables) │     │  (Process)  │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
