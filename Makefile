@@ -83,7 +83,17 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✅ $(NAME) ready!$(NC)"
 
-$(OBJ_DIR)/%.o: %.c
+valgrind: $(NAME)
+	@echo "$(PINK)🧪 Running Valgrind...$(NC)"
+	valgrind \
+		--leak-check=full \
+		--show-leak-kinds=all \
+		--track-fds=yes \
+		--trace-children=yes \
+		--suppressions=tests/level0/readline.supp \
+		./$(NAME)
+
+$(OBJ_DIR)/%.o: %.c Makefile $(INCLUDES)
 	@mkdir -p $(dir $@)
 	@echo "$(PINK)⌛ $<$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -97,6 +107,7 @@ clean:
 	@echo "$(RED)🗑️  Cleaning objects...$(NC)"
 	@$(MAKE) -s -C $(LIBFT_DIR) clean
 	@$(RM) $(OBJ_DIR)
+	@$(RM) .DS_Store
 
 fclean: clean
 	@echo "$(RED)🗑️  Full clean...$(NC)"
@@ -106,15 +117,8 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind
 
-# valgrind \
-    --leak-check=full \
-    --show-leak-kinds=all \
-    --track-fds=yes \
-    --trace-children=yes \
-    --suppressions=tests/level0/readline.supp \
-    ./minishell
 
 #Explicación de las banderas:
 #--leak-check=full: Análisis completo de memoria.
